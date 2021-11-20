@@ -28,8 +28,8 @@ with open('cam_matrix.txt') as f:
         line = f.readline()
         x = line.split()
         mtxline = []
-        for j in x:
-            mtxline.append(np.float32(j.replace("\n","")))
+        for h in x:
+            mtxline.append(np.float32(h.replace("\n","")))
         mtx.append(mtxline)
 
 dist = []
@@ -37,8 +37,8 @@ with open('dist_coeff.txt') as f:
     line = f.readline()
     x = line.split()
     distline = []
-    for j in x:
-        distline.append(np.float32(j.replace("\n","")))
+    for h in x:
+        distline.append(np.float32(h.replace("\n","")))
     dist.append(distline)
 
 newcameramtx = []
@@ -47,8 +47,8 @@ with open('newcameramtx.txt') as f:
         line = f.readline()
         x = line.split()
         newcameramtxline = []
-        for j in x:
-            newcameramtxline.append(np.float32(j.replace("\n","")))
+        for h in x:
+            newcameramtxline.append(np.float32(h.replace("\n","")))
         newcameramtx.append(newcameramtxline)
 
 roi = []
@@ -213,12 +213,14 @@ while True:
         data=bytes("TX#:", 'utf-8')
         ser.write(data)
         ser.write(str(j).encode('utf-8'))
-        data=bytes(" G:", 'utf-8')
+        data=bytes(" G<", 'utf-8')
         ser.write(data)
         ser.write(str(xG).encode('utf-8'))
         data=bytes(", ", 'utf-8')
         ser.write(data)
         ser.write(str(yG).encode('utf-8'))
+        data=bytes(">",'utf-8')
+        ser.write(data)
         ser.write("\n".encode('utf-8'))
         time.sleep(0.04)
         ser.flush()
@@ -227,13 +229,13 @@ while True:
 
     # Blue
     try:
-        data=bytes("B:", 'utf-8')
+        data=bytes("B<", 'utf-8')
         ser.write(data)
         ser.write(str(xB).encode('utf-8'))
         data=bytes(", ", 'utf-8')
         ser.write(data)
         ser.write(str(yB).encode('utf-8'))
-        data=bytes(", ", 'utf-8')
+        data=bytes(">", 'utf-8')
         ser.write(data)
         time.sleep(0.04)
         ser.flush()
@@ -242,12 +244,14 @@ while True:
 
     # Yellow
     try:
-        data=bytes(" Y:", 'utf-8')
+        data=bytes(" Y<", 'utf-8')
         ser.write(data)
         ser.write(str(xY).encode('utf-8'))
         data=bytes(", ", 'utf-8')
         ser.write(data)
         ser.write(str(yY).encode('utf-8'))
+        data=bytes(">", 'utf-8')
+        ser.write(data)
         ser.write("\n".encode('utf-8'))
         time.sleep(0.04)
         ser.flush()
